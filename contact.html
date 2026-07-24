@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Contact — Adithi Mahesh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css" />
+<script src="shared-nav.js"></script>
+<style>
+  body { min-height: 100vh; }
+
+  /* ─── PAGE TRANSITION VEIL ─── */
+  .veil {
+    position: fixed; inset: 0; z-index: 200;
+    background: var(--accent);
+    transform-origin: top;
+    animation: veil-out 1.05s cubic-bezier(.7,0,.2,1) forwards;
+    pointer-events: none;
+  }
+  .veil .label {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--paper);
+    font-family: var(--display);
+    font-style: italic;
+    font-size: clamp(40px, 6vw, 88px);
+    letter-spacing: -0.02em;
+    animation: veil-label-out .55s ease-out forwards;
+  }
+  @keyframes veil-out {
+    0% { transform: scaleY(1); } 55% { transform: scaleY(1); }
+    100% { transform: scaleY(0); }
+  }
+  @keyframes veil-label-out {
+    0% { opacity: 0; transform: translate(-50%, -42%); }
+    35% { opacity: 1; transform: translate(-50%, -50%); }
+    100% { opacity: 0; transform: translate(-50%, -58%); }
+  }
+
+  /* ─── TOP BAR ─── */
+  .topbar {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    padding: 28px clamp(20px, 3.5vw, 56px) 18px;
+    border-bottom: 1px solid var(--line);
+    gap: 24px;
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(244,239,230,.86);
+    backdrop-filter: blur(10px);
+  }
+  .mark { display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em;  white-space: nowrap;}
+  .mark .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--accent); box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 18%, transparent); }
+  .mark strong { font-weight: 600; }
+  .mark span { color: var(--mute); }
+  .crumb { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); text-align: center; }
+  .crumb em { font-style: normal; color: var(--ink); border-bottom: 1px solid var(--ink); padding-bottom: 2px; }
+  nav.top { justify-self: end; display: flex; gap: 28px; font-size: 13px;  white-space: nowrap;}
+  nav.top a { text-decoration: none; color: var(--ink); padding-bottom: 2px; border-bottom: 1px solid transparent; transition: border-color .25s, color .25s;  white-space: nowrap;}
+  nav.top a:hover { border-bottom-color: var(--ink); }
+  nav.top a.active { color: var(--mute); }
+
+  /* ─── MAIN ─── */
+  .main {
+    padding: clamp(64px, 12vh, 140px) clamp(20px, 3.5vw, 56px) clamp(40px, 6vh, 72px);
+    display: flex;
+    justify-content: center;
+  }
+  .directory {
+    width: 100%;
+    max-width: 560px;
+    display: flex; flex-direction: column;
+    gap: 28px;
+  }
+
+  .dir-head { display: flex; flex-direction: column; gap: 10px; }
+  .dir-head .lbl {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--mute);
+    border-top: 1px solid var(--ink);
+    padding-top: 12px;
+  }
+  .dir-head h1 {
+    margin: 0;
+    font-family: var(--sans); font-weight: 500; letter-spacing: -0.02em;
+    font-size: clamp(28px, 2.6vw, 36px);
+    line-height: 1.1;
+  }
+  .dir-head h1 .it { font-family: var(--display); font-style: italic; font-weight: 300; color: var(--accent); }
+
+  /* ─── CHANNELS ─── */
+  .channels { display: flex; flex-direction: column; gap: 0; margin-top: 18px; }
+  .channels a {
+    display: grid;
+    grid-template-columns: 16px 1fr auto;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+    text-decoration: none; color: inherit;
+    transition: padding .2s, color .2s;
+  }
+  .channels a:hover { padding-left: 8px; color: var(--accent); }
+  .channels a:hover .arr { transform: translate(3px, -3px); color: var(--accent); }
+  .channels a .bullet {
+    width: 6px; height: 6px; border-radius: 999px; background: var(--accent);
+  }
+  .channels a:nth-child(2) .bullet { background: var(--accent-2); }
+  .channels a:nth-child(3) .bullet { background: #4a8a5f; }
+  .channels a:nth-child(4) .bullet { background: var(--mute); }
+  .channels a .meta { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .channels a .meta .k {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--mute);
+  }
+  .channels a .meta .v {
+    font-family: var(--mono);
+    font-size: 16px; letter-spacing: 0.02em;
+    color: var(--ink);
+    text-transform: uppercase;
+  }
+  .channels a .meta .v .it { font-family: var(--display); font-style: italic; font-weight: 400; color: var(--accent); text-transform: none; letter-spacing: 0; }
+  .channels a .arr { color: var(--ink); transition: transform .25s, color .25s; }
+
+  /* ─── AVAILABILITY CARD ─── */
+  .avail {
+    background: var(--ink); color: var(--paper);
+    border-radius: 6px;
+    padding: 22px 24px;
+    display: flex; flex-direction: column; gap: 14px;
+    margin-top: 8px;
+  }
+  .avail .live {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: color-mix(in oklab, var(--paper) 80%, transparent);
+  }
+  .avail .live .pulse {
+    width: 7px; height: 7px; border-radius: 999px;
+    background: #8fc89c;
+    box-shadow: 0 0 0 3px rgba(143,200,156,.18);
+    animation: pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(143,200,156,.18); }
+    50% { box-shadow: 0 0 0 6px rgba(143,200,156,.04); }
+  }
+  .avail .big {
+    font-family: var(--sans); font-weight: 500;
+    font-size: 21px; letter-spacing: -0.015em; line-height: 1.3;
+  }
+  .avail .big .it { font-family: var(--display); font-style: italic; font-weight: 300; color: #b8c4a8; }
+  .avail .meta {
+    display: flex; gap: 22px; flex-wrap: wrap;
+    padding-top: 14px;
+    border-top: 1px solid rgba(244,239,230,.18);
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--paper) 75%, transparent);
+  }
+  .avail .meta strong { color: var(--paper); font-weight: 500; }
+
+  /* ─── RESUME CARD ─── */
+  .resume-card {
+    border: 1px solid var(--line); border-radius: 6px;
+    padding: 22px 26px; margin-bottom: 16px;
+  }
+  .resume-card .k {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--mute);
+  }
+  .resume-card .row {
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    margin-top: 10px;
+  }
+  .resume-card p { margin: 0; font-size: 17px; font-weight: 500; letter-spacing: -0.015em; color: var(--ink); }
+  .resume-card .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 20px; border-radius: 999px;
+    background: var(--accent); color: var(--paper);
+    text-decoration: none; white-space: nowrap;
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase;
+    transition: transform .3s cubic-bezier(.2,.7,.2,1), background .25s ease;
+  }
+  .resume-card .btn svg { transition: transform .25s ease; }
+  .resume-card .btn:hover { transform: translateY(-2px); background: var(--ink); }
+  .resume-card .btn:hover svg { transform: translate(2px, -2px); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px clamp(20px, 3.5vw, 56px) 28px;
+    border-top: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 11px; letter-spacing: 0.06em;
+    color: var(--mute);
+  }
+  footer .links { display: flex; gap: 22px; }
+  footer .links a {
+    color: var(--ink-2); text-decoration: none;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px; transition: border-color .25s;
+  }
+  footer .links a:hover { border-bottom-color: var(--ink-2); }
+
+  /* ─── REVEAL ─── */
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity .8s ease-out, transform .8s ease-out; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 560px) {
+    .topbar { grid-template-columns: 1fr auto; gap: 14px; padding: 20px 22px 14px; }
+    .crumb { display: none; }
+    nav.top { gap: 16px; font-size: 12px; }
+    footer { flex-direction: column; align-items: flex-start; gap: 6px; }
+    .channels a .meta .v { font-size: 14px; }
+    .avail .meta { gap: 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<style>.to-top{position:fixed;bottom:28px;right:28px;width:44px;height:44px;border-radius:50%;background:var(--ink,#1a1612);color:var(--paper,#f3eee4);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .3s ease,transform .3s ease;z-index:60;box-shadow:0 12px 28px -12px rgba(20,15,10,.4)}.to-top.show{opacity:1;pointer-events:auto;transform:translateY(0)}.to-top:hover{background:var(--accent,#3a4d3f)}</style>
+<button class="to-top" id="toTopBtn" aria-label="Back to top"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+
+<div class="veil"><span class="label">Contact</span></div>
+
+<div class="page">
+
+  <!-- ─── TOP BAR ─── -->
+  <header class="topbar">
+    <a class="mark" href="index.html" aria-label="Adithi Mahesh — home">
+      <span class="dot"></span>
+      <strong>A · M</strong>
+      <span>/ portfolio</span>
+    </a>
+    <div class="crumb">home &nbsp;/&nbsp; <em>contact</em></div>
+    <nav class="top">
+      <a href="index.html">Home</a>
+      <a href="work.html">Work</a>
+      <a href="about.html">About</a>
+      <a href="designscapes.html">DesignScapes</a>
+      <a href="contact.html" class="active">Contact</a>
+    </nav>
+    <button class="nav-toggle"><span></span><span></span><span></span></button>
+  </header>
+
+  <!-- ─── MAIN ─── -->
+  <main class="main">
+    <div class="directory">
+
+      <div class="dir-head">
+        <span class="lbl">— direct lines</span>
+        <h1>Or pick a <span class="it">channel</span>.</h1>
+      </div>
+
+      <div class="channels">
+        <a href="mailto:adithimaheshrs@gmail.com">
+          <span class="bullet"></span>
+          <div class="meta">
+            <span class="k">email · primary</span>
+            <span class="v"><span class="it">adithimaheshrs</span>@gmail.com</span>
+          </div>
+          <svg class="arr" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7 17 L17 7 M9 7 H17 V15"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/adithimahesh" target="_blank" rel="noopener">
+          <span class="bullet"></span>
+          <div class="meta">
+            <span class="k">linkedin · best for roles</span>
+            <span class="v">www.linkedin.com/in/adithimahesh</span>
+          </div>
+          <svg class="arr" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7 17 L17 7 M9 7 H17 V15"/></svg>
+        </a>
+        <a href="https://www.behance.net/adithimahesh" target="_blank" rel="noopener">
+          <span class="bullet"></span>
+          <div class="meta">
+            <span class="k">behance · selected work</span>
+            <span class="v">www.behance.net/adithimahesh</span>
+          </div>
+          <svg class="arr" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7 17 L17 7 M9 7 H17 V15"/></svg>
+        </a>
+      </div>
+
+      <div class="resume-card">
+        <span class="k">cv · download</span>
+        <div class="row">
+          <p>Want the full picture? Take a look at my resume.</p>
+          <a class="btn" href="assets/Resume-Adithi-Mahesh.pdf" target="_blank" rel="noopener">View resume<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7 17 L17 7 M9 7 H17 V15"/></svg></a>
+        </div>
+      </div>
+
+      <div class="avail">
+        <div class="live"><span class="pulse"></span>currently · available</div>
+        <div class="big">Open to <span class="it">full-time</span> UX &amp; product roles, starting <span class="it">immediately</span>.</div>
+        <div class="meta">
+          <span><strong>Based</strong> Germany</span>
+          <span><strong>Time zone</strong> GMT+2</span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <span>© Adithi Mahesh · 2026</span>
+    <div class="links">
+      <a href="mailto:adithimaheshrs@gmail.com">email</a>
+      <a href="https://www.linkedin.com/in/adithimahesh" target="_blank" rel="noopener">linkedin</a>
+      <a href="https://www.behance.net/adithimahesh" target="_blank" rel="noopener">behance</a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  // Remove the veil after animation
+  setTimeout(() => { const v = document.querySelector('.veil'); if (v) v.remove(); }, 1200);
+
+  // Scroll reveal
+  const els = document.querySelectorAll('.channels a, .avail, .resume-card');
+  els.forEach(el => el.classList.add('reveal'));
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.18 });
+  els.forEach(el => io.observe(el));
+</script>
+<script>(function(){var b=document.getElementById('toTopBtn');window.addEventListener('scroll',function(){b.classList.toggle('show',window.scrollY>window.innerHeight)},{passive:true});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();</script>
+</body>
+</html>

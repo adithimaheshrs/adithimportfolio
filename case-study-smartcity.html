@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Feminist Smart City — Case Study · Adithi Mahesh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css" />
+<style>
+  :root{--paper:#f3eee4;--paper-2:#ebe5d6;--ink:#1a1612;--ink-2:#2a241d;--mute:#756b5e;--line:#d6cebe;--accent:#2c4a6e;--accent-2:#c96442;--accent-soft:#a9c2d9}
+  body{background:var(--paper)}
+  .veil{position:fixed;inset:0;z-index:200;background:var(--accent);transform-origin:top;animation:veil-out 1.05s cubic-bezier(.7,0,.2,1) forwards;pointer-events:none}
+  .veil .veil-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:var(--paper);font-family:var(--display);font-style:italic;font-size:clamp(30px,4.4vw,64px);letter-spacing:-.02em;animation:veil-label-out .55s ease-out forwards}
+  @keyframes veil-out{0%{transform:scaleY(1)}55%{transform:scaleY(1)}100%{transform:scaleY(0)}}
+  @keyframes veil-label-out{0%{opacity:0;transform:translate(-50%,-42%)}35%{opacity:1;transform:translate(-50%,-50%)}100%{opacity:0;transform:translate(-50%,-58%)}}
+  .nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px clamp(20px,3vw,44px);background:linear-gradient(to bottom,var(--paper) 65%,transparent);font-family:var(--mono);font-size:12px;letter-spacing:.04em;transition:background .35s}
+  .nav.lifted{background:rgba(243,238,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .nav .back{color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+  .nav .back:hover{color:var(--accent-2)}
+  .nav .progress-wrap{flex:1;max-width:280px;margin:0 24px;display:flex;align-items:center;gap:12px;color:var(--mute);text-transform:uppercase;letter-spacing:.12em;font-size:10.5px}
+  .nav .progress{flex:1;height:2px;background:var(--line);border-radius:2px;overflow:hidden}
+  .nav .progress-fill{height:100%;width:0%;background:var(--accent);transition:width .1s linear}
+  .nav .right{display:flex;gap:24px}
+  .nav .right a{color:var(--ink);text-decoration:none}
+  .nav .right a:hover{color:var(--accent-2)}
+  .rail{position:fixed;top:50%;left:clamp(14px,1.6vw,28px);transform:translateY(-50%);z-index:30;display:flex;flex-direction:column;gap:14px}
+  .rail .r{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--mute);font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;transition:color .25s ease,transform .25s ease}
+  .rail .r .tick{width:18px;height:1px;background:currentColor;opacity:.6;transition:width .25s ease,background .25s ease}
+  .rail .r .label{opacity:0;transform:translateX(-4px);transition:opacity .25s,transform .25s}
+  .rail .r:hover{color:var(--ink)}
+  .rail .r:hover .label{opacity:1;transform:translateX(0)}
+  .rail .r.active{color:var(--accent)}
+  .rail .r.active .tick{width:32px;background:var(--accent);opacity:1}
+  .rail .r.active .label{opacity:1;transform:translateX(0)}
+  main{padding-bottom:80px}
+  section{position:relative;padding:clamp(80px,12vh,140px) clamp(20px,6vw,96px)}
+  .container{max-width:1240px;margin:0 auto}
+  .hero{min-height:100vh;display:grid;grid-template-rows:auto 1fr auto;padding-top:100px}
+  .hero-meta{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin-bottom:24px}
+  .hero-meta strong{color:var(--ink);font-weight:500}
+  .hero h1{margin:0;font-family:var(--sans);font-weight:500;font-size:clamp(34px,4.6vw,68px);line-height:1.08;letter-spacing:-.03em;color:var(--ink);align-self:end}
+  .hero h1 .it{font-family:var(--display);font-style:italic;font-weight:300;color:var(--accent)}
+  .hero-tag{margin-top:14px;font-size:clamp(17px,1.4vw,23px);line-height:1.45;max-width:56ch;color:var(--ink-2)}
+  .hero-tag .em{font-family:var(--display);font-style:italic;color:var(--accent-2)}
+  .hero-foot{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding-top:28px;border-top:1px solid var(--line);margin-top:32px}
+  .hero-foot div{display:flex;flex-direction:column;gap:4px}
+  .hero-foot dt{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+  .hero-foot dd{margin:0;font-size:14.5px;color:var(--ink-2)}
+  .hero .container{padding-left:clamp(0px,0vw,0px)}
+  @media (min-width:901px){ .hero .container{padding-left:150px} }
+  .scroll-cue{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);display:flex;flex-direction:column;align-items:center;gap:10px}
+  .scroll-cue .line{width:1px;height:40px;background:linear-gradient(to bottom,var(--mute),transparent);animation:scrolldown 2s ease-in-out infinite}
+  @keyframes scrolldown{0%,100%{transform:translateY(0);opacity:.6}50%{transform:translateY(8px);opacity:1}}
+  .chapter-band{position:relative;height:44vh;overflow:hidden;margin:60px 0;display:flex;align-items:flex-end}
+  .chapter-band.navy{background:var(--accent)}
+  .chapter-band.clay{background:var(--accent-2)}
+  .chapter-band .label{position:relative;padding:0 clamp(20px,4vw,56px) 28px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;color:var(--paper);width:100%;z-index:2}
+  .chapter-band .label .num{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.85}
+  .chapter-band .label h2{margin:8px 0 0;font-family:var(--sans);font-weight:500;font-size:clamp(32px,4.6vw,60px);line-height:.98;letter-spacing:-.03em;max-width:16ch}
+  .chapter-band .label h2 .it{font-family:var(--display);font-style:italic;font-weight:400}
+  .chapter-band .label .caption{font-family:var(--display);font-style:italic;font-size:16px;max-width:30ch;color:rgba(255,255,255,.85)}
+  .two-col{display:grid;grid-template-columns:1fr 1.4fr;gap:clamp(28px,5vw,80px);align-items:start}
+  .two-col .lhead{position:sticky;top:110px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
+  .two-col .lhead .big{font-family:var(--sans);font-weight:500;font-size:clamp(28px,2.4vw,36px);letter-spacing:-.02em;text-transform:none;color:var(--ink);margin-top:12px;line-height:1.1}
+  .two-col .lhead .big .it{font-family:var(--display);font-style:italic;font-weight:300;color:var(--accent)}
+  .two-col p{margin:0 0 20px;font-size:clamp(16px,1.15vw,20px);line-height:1.6;color:var(--ink-2)}
+  .two-col p .em{font-family:var(--display);font-style:italic;color:var(--accent-2)}
+  .two-col p strong{color:var(--ink);font-weight:500}
+  .two-col h3.sub{font-family:var(--sans);font-weight:500;font-size:19px;letter-spacing:-.01em;color:var(--ink);margin:28px 0 8px}
+  .values{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+  .values span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:8px 14px;border:1px solid var(--line);border-radius:999px;color:var(--ink-2);background:var(--paper-2)}
+  .phases{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:36px}
+  .phase{padding:22px 22px 26px;border-radius:6px;background:var(--paper-2);border:1px solid var(--line)}
+  .phase .pnum{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--accent);margin-bottom:12px}
+  .phase h3{margin:0 0 8px;font-size:19px;font-weight:500;letter-spacing:-.02em}
+  .phase p{margin:0;font-size:14px;line-height:1.55;color:var(--ink-2)}
+  .pullquote{margin:36px 0;padding:24px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-family:var(--display);font-style:italic;font-weight:300;font-size:clamp(22px,2.2vw,30px);line-height:1.35;color:var(--ink);letter-spacing:-.01em}
+  .pub-card{margin-top:32px;padding:26px 28px;border:1px solid var(--line);border-radius:6px;background:var(--paper-2)}
+  .pub-card .venue{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+  .pub-card .title{font-family:var(--display);font-style:italic;font-size:clamp(18px,1.9vw,23px);line-height:1.3;color:var(--ink);margin-bottom:12px}
+  .pub-card a{color:var(--accent-2);font-family:var(--mono);font-size:13px;word-break:break-all}
+  .outro{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:80px;padding-top:60px;border-top:1px solid var(--line);align-items:end}
+  .outro h3{margin:0;font-family:var(--sans);font-weight:500;font-size:clamp(34px,3.2vw,52px);line-height:1;letter-spacing:-.03em}
+  .outro h3 .it{font-family:var(--display);font-style:italic;font-weight:300;color:var(--accent)}
+  .outro a.next{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink);padding:20px;border:1px solid var(--line);border-radius:6px;transition:background .25s ease,transform .25s ease}
+  .outro a.next:hover{background:var(--paper-2);transform:translateY(-2px)}
+  .outro a.next .small{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+  .outro a.next .big{font-size:22px;font-weight:500;letter-spacing:-.02em;margin-top:4px}
+  .outro a.next .arr{margin-left:auto}
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .9s ease-out,transform .9s ease-out}
+  .reveal.in{opacity:1;transform:none}
+  @media (max-width:900px){
+    .rail{display:none}
+    .two-col{grid-template-columns:1fr;gap:24px}
+    .two-col .lhead{position:static}
+    .phases{grid-template-columns:1fr}
+    .outro{grid-template-columns:1fr;gap:24px}
+    .hero-foot{grid-template-columns:repeat(2,1fr)}
+    .chapter-band{height:34vh;margin:36px 0}
+    section{padding:60px 22px}
+    .nav .progress-wrap{display:none}
+  }
+  @media (max-width:520px){
+    .hero-foot{grid-template-columns:1fr 1fr;gap:12px}
+    .hero h1{font-size:clamp(30px,8.4vw,44px)}
+    .veil .veil-label{font-size:32px}
+  }
+
+  .to-top{position:fixed;bottom:28px;right:28px;width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--paper);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .3s ease,transform .3s ease;z-index:60;box-shadow:0 12px 28px -12px rgba(20,15,10,.4)}
+  .to-top.show{opacity:1;pointer-events:auto;transform:translateY(0)}
+  .to-top:hover{background:var(--accent)}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<div class="veil"><span class="veil-label">Feminist Smart City</span></div>
+
+<header class="nav" id="topnav">
+  <a class="back" href="work.html">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 6l-6 6 6 6"/></svg>
+    <span>Work</span>
+  </a>
+  <div class="progress-wrap">
+    <span id="chapterLabel">00 · cover</span>
+    <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+  <div class="right">
+    <a href="contact.html">Email</a>
+    <a href="work.html">Work</a>
+  </div>
+</header>
+
+<nav class="rail" aria-label="Chapters">
+  <a class="r" href="#ch-hero" data-target="ch-hero"><span class="tick"></span><span class="label">00 — Cover</span></a>
+  <a class="r" href="#ch-problem" data-target="ch-problem"><span class="tick"></span><span class="label">01 — Problem</span></a>
+  <a class="r" href="#ch-approach" data-target="ch-approach"><span class="tick"></span><span class="label">02 — Approach</span></a>
+  <a class="r" href="#ch-emerged" data-target="ch-emerged"><span class="tick"></span><span class="label">03 — What Emerged</span></a>
+  <a class="r" href="#ch-method" data-target="ch-method"><span class="tick"></span><span class="label">04 — The Method</span></a>
+  <a class="r" href="#ch-outcome" data-target="ch-outcome"><span class="tick"></span><span class="label">05 — Outcome</span></a>
+</nav>
+
+<button class="to-top" id="toTopBtn" aria-label="Back to top"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<main>
+  <section id="ch-hero" class="hero" data-chapter="00" data-label="00 · cover">
+    <div class="container">
+      <div class="hero-meta">
+        <span><strong>CASE STUDY</strong> · SPECULATIVE DESIGN RESEARCH</span>
+        <span>Summer 2024</span>
+      </div>
+      <h1>Smart Cities for Bridging the Urban-Rural Divide:<br/><span class="it">Designing Small-Town Smart City Visions through a Speculative Design Approach Led by Feminist HCI Values</span></h1>
+      <p class="hero-tag" style="margin-top:30px;">
+        What does a city look like when it's designed for everyone — including the people it
+        usually forgets?
+      </p>
+      <dl class="hero-foot">
+        <div><dt>Role</dt><dd>Researcher · Workshop Facilitator · Speculative Design · Co-author</dd></div>
+        <div><dt>Timeline</dt><dd>Summer 2024</dd></div>
+        <div><dt>Outcome</dt><dd>Published at Mindtrek 2024, Tampere</dd></div>
+        <div><dt>Type</dt><dd>Research project</dd></div>
+      </dl>
+    </div>
+    <div class="scroll-cue"><span>scroll</span><span class="line"></span></div>
+  </section>
+
+  <div class="chapter-band navy" id="ch-problem" data-chapter="01" data-label="01 · the problem">
+    <div class="label">
+      <div><div class="num">Chapter 01</div><h2>The <span class="it">problem.</span></h2></div>
+      <p class="caption">— Smarter for whom?</p>
+    </div>
+  </div>
+
+  <section class="container">
+    <div class="two-col">
+      <div class="lhead">
+        — the problem
+        <div class="big">A default citizen who <span class="it">isn't</span> everyone.</div>
+      </div>
+      <div>
+        <p>
+          Every year, more people leave small towns for big cities chasing jobs, comfort, and
+          opportunity. The cities they leave behind struggle with declining populations and
+          crumbling infrastructure. Smart city technology is supposed to help, but most smart
+          city design makes the same mistake as urban planning always has: it's built around a
+          default citizen that doesn't represent everyone.
+        </p>
+        <p>
+          We wanted to ask a different question. Not "how do we make cities smarter?" but
+          <span class="em">"smarter for whom?"</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="chapter-band clay" id="ch-approach" data-chapter="02" data-label="02 · approach">
+    <div class="label">
+      <div><div class="num">Chapter 02</div><h2>The <span class="it">approach.</span></h2></div>
+      <p class="caption">— Speculative design, and six feminist HCI values.</p>
+    </div>
+  </div>
+
+  <section class="container">
+    <div class="two-col">
+      <div class="lhead">
+        — approach &amp; method
+        <div class="big">Imagining before <span class="it">critiquing.</span></div>
+      </div>
+      <div>
+        <p>
+          We used speculative design, a method that invites people to imagine futures rather than
+          just critique the present. It's deliberately open-ended, sometimes even absurd, because
+          the point isn't to get practical answers immediately. It's to surface values, fears, and
+          desires that more conventional research methods miss.
+        </p>
+        <p>
+          We ran three workshops in Weimar with nine local residents, embedding feminist HCI
+          principles into every step. These weren't just theoretical labels: they shaped how we
+          recruited participants, how we structured activities, and what questions we asked when
+          things got uncomfortable.
+        </p>
+        <div class="values">
+          <span>Pluralism</span><span>Participation</span><span>Advocacy</span>
+          <span>Embodiment</span><span>Ecology</span><span>Self-disclosure</span>
+        </div>
+
+        <h3 class="sub">What we did</h3>
+        <p>
+          Before the workshop, participants chose two photographs — one representing their vision
+          of a utopian city, one dystopian — and took a walk around Weimar, noting what they
+          wished was different.
+        </p>
+        <div class="phases">
+          <div class="phase"><div class="pnum">01</div><h3>Vision boards</h3><p>Built from their utopian and dystopian photographs.</p></div>
+          <div class="phase"><div class="pnum">02</div><h3>Speculative stories</h3><p>Written, or drawn as comic strips, set in future cities.</p></div>
+          <div class="phase"><div class="pnum">03</div><h3>Town walkthrough</h3><p>Grounded the imagination in the real place participants live.</p></div>
+          <div class="phase"><div class="pnum">04</div><h3>Group discussion</h3><p>Observations shared and compared as a group.</p></div>
+        </div>
+        <p style="margin-top:20px;">
+          The prompt we gave for the storytelling session started in a stone hut with no running
+          water, deliberately primitive, to make participants work their way forward toward what
+          they actually value in a city.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="chapter-band navy" id="ch-emerged" data-chapter="03" data-label="03 · what emerged">
+    <div class="label">
+      <div><div class="num">Chapter 03</div><h2>What <span class="it">emerged.</span></h2></div>
+      <p class="caption">— Utopias that felt human, not optimised.</p>
+    </div>
+  </div>
+
+  <section class="container">
+    <div class="two-col">
+      <div class="lhead">
+        — what emerged
+        <div class="big">Not what smart city <span class="it">marketing</span> promises.</div>
+      </div>
+      <div>
+        <p>
+          What people wanted from a utopian small city was not what smart city marketing usually
+          promises. Participants talked about nature integrated into everyday life, genuinely safe
+          public spaces, direct democracy, freedom of expression, and spaces that support mental
+          wellbeing. They wanted cities that felt human, not optimised.
+        </p>
+        <p>
+          What people feared in a dystopian city was more revealing: excessive surveillance,
+          technology used for control, loss of human connection, censorship, social scoring. The
+          dystopia they imagined wasn't a broken city; it was a city that had prioritised
+          efficiency over people.
+        </p>
+        <div class="pullquote">
+          A bio-degradable vehicle made of spaghetti, running on tomato juice. Mobile swamps to
+          provide greenery and prevent flooding.
+        </div>
+        <p>
+          The speculative stories produced were inventive, including a political scenario where
+          opposing ideologies reached peaceful compromise. Absurd on the surface, but each one was
+          pointing at something real: sustainability, ecological integration, democratic values.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="chapter-band clay" id="ch-method" data-chapter="04" data-label="04 · the method">
+    <div class="label">
+      <div><div class="num">Chapter 04</div><h2>What the method<br/><span class="it">revealed.</span></h2></div>
+      <p class="caption">— Honest limitations, published alongside the findings.</p>
+    </div>
+  </div>
+
+  <section class="container">
+    <div class="two-col">
+      <div class="lhead">
+        — reflection on method
+        <div class="big">The limits, published <span class="it">too.</span></div>
+      </div>
+      <div>
+        <p>
+          Speculative design worked well at surfacing values and sparking imagination; participants
+          engaged deeply, and the outputs were genuinely diverse. But it also had honest
+          limitations. The outcomes were sometimes too abstract to act on directly. Participants'
+          personal biases shaped what they imagined as utopia. And recruiting residents of a small
+          town who had mostly grown up in larger cities meant the town's specific problems were
+          sometimes hard for them to identify.
+        </p>
+        <p>
+          These tensions are part of what we published, not just the findings, but a critical
+          reflection on the method itself.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="ch-outcome" class="container" data-chapter="05" data-label="05 · outcome">
+    <div class="two-col">
+      <div class="lhead">
+        — publication &amp; reflection
+        <div class="big">Who gets to imagine the <span class="it">future?</span></div>
+      </div>
+      <div>
+        <p>
+          Published at Mindtrek 2024, the 27th International Academic Mindtrek Conference, Tampere,
+          Finland, October 2024.
+        </p>
+        <div class="pub-card">
+          <div class="venue">Mindtrek 2024 · Tampere, Finland</div>
+          <div class="title">"Smart Cities for Bridging the Urban-Rural Divide: Designing Small-Town Smart City Visions through a Speculative Design Approach Led by Feminist HCI Values"</div>
+          <a href="https://doi.org/10.1145/3681716.3689444" target="_blank" rel="noopener">dl.acm.org/doi/10.1145/3681716.3689444</a>
+        </div>
+
+        <h3 class="sub">What I learnt</h3>
+        <p>
+          Speculative design is one of the few methods that lets participants dream before they
+          self-censor. But running it well requires real facilitation skill: knowing when to push
+          someone's idea further, when to ask "for whom would this be a dystopia?", and when to
+          let the absurdity play out because it's pointing somewhere important.
+        </p>
+        <p>
+          This project also deepened my belief that the most interesting design problems aren't
+          technical; they're political. Who gets to imagine the future, and whose imagination gets
+          built?
+        </p>
+      </div>
+    </div>
+
+    <div class="outro">
+      <h3>Thanks for<br/>reading <span class="it">— a.</span></h3>
+      <a class="next" href="work.html">
+        <div><div class="small">Back to</div><div class="big">All Work ↗</div></div>
+        <svg class="arr" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7 17 L17 7 M9 7 H17 V15"/></svg>
+      </a>
+    </div>
+  </section>
+</main>
+
+<script>
+  const progressFill = document.getElementById('progressFill');
+  const chapterLabel = document.getElementById('chapterLabel');
+  const topnav = document.getElementById('topnav');
+  const railLinks = document.querySelectorAll('.rail .r');
+  const chapters = document.querySelectorAll('[data-chapter]');
+
+  function onScroll(){
+    const sc = window.scrollY;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = Math.min(100, Math.max(0, (sc / max) * 100));
+    progressFill.style.width = pct + '%';
+    topnav.classList.toggle('lifted', sc > 24);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        chapterLabel.textContent = e.target.dataset.label || '';
+        railLinks.forEach(l => l.classList.toggle('active', l.dataset.target === e.target.id));
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+  chapters.forEach(c => io.observe(c));
+
+  const revealEls = document.querySelectorAll('.two-col p, .hero-foot div, .phase');
+  revealEls.forEach(el => el.classList.add('reveal'));
+  const ro = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); } });
+  }, { threshold: 0.18 });
+  revealEls.forEach(el => ro.observe(el));
+
+  document.querySelectorAll('.rail .r').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const target = document.getElementById(a.dataset.target);
+      if (target) { e.preventDefault(); window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 60, behavior: 'smooth' }); }
+    });
+  });
+
+
+  const toTopBtn = document.getElementById('toTopBtn');
+  window.addEventListener('scroll', () => { toTopBtn.classList.toggle('show', window.scrollY > window.innerHeight); }, { passive: true });
+  toTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  setTimeout(() => { const v = document.querySelector('.veil'); if (v) v.remove(); }, 1200);
+</script>
+</body>
+</html>

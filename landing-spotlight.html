@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Adithi Mahesh — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css" />
+<style>
+  :root { --paper: #ece8db; --accent: #3e5544; --accent-2: #c96442; }
+  body {
+    height: 100vh;
+    overflow: hidden;
+    background: var(--paper);
+  }
+
+  .page {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 24px clamp(20px, 3vw, 48px) 18px;
+    gap: 14px;
+    position: relative;
+  }
+
+  /* ─── TOP ─── */
+  header.bar {
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+  .bar .lock {
+    display: flex; gap: 22px; color: var(--mute);
+  }
+  .bar .lock strong { color: var(--ink); font-weight: 600; }
+  .bar nav { display: flex; gap: 24px; }
+  .bar nav a {
+    text-decoration: none;
+    color: var(--ink);
+    padding-bottom: 3px;
+    border-bottom: 1px solid transparent;
+    transition: border-color .25s ease, color .25s ease;
+  }
+  .bar nav a:hover { border-bottom-color: var(--accent); color: var(--accent); }
+
+  /* ─── STAGE ─── */
+  .stage {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: clamp(20px, 3vw, 48px);
+    min-height: 0;
+  }
+
+  /* LEFT — big name block */
+  .name-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    min-width: 0;
+  }
+  .lockup {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mute);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .lockup::after {
+    content: ""; display: block; height: 1px; flex: 1; background: currentColor; opacity: 0.35;
+  }
+
+  h1.huge {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: clamp(72px, 11vw, 184px);
+    line-height: 0.88;
+    letter-spacing: -0.045em;
+    margin: 0;
+    color: var(--ink);
+  }
+  h1.huge .it {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+    padding-right: 0.05em;
+  }
+  h1.huge .stamp {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 0.25em;
+    padding: 6px 16px;
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--ink);
+    text-transform: uppercase;
+    transform: translateY(-0.55em) rotate(-2deg);
+  }
+
+  .lede2 {
+    max-width: 44ch;
+    font-size: clamp(15px, 1.05vw, 17px);
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+  .lede2 .em {
+    font-family: var(--display);
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  /* RIGHT — photo + project tiles */
+  .right-stack {
+    display: grid;
+    grid-template-rows: 1.2fr 1fr;
+    gap: 16px;
+    min-height: 0;
+    position: relative;
+  }
+
+  .polaroid {
+    position: relative;
+    background: #fdfaf1;
+    padding: 14px 14px 36px;
+    border-radius: 2px;
+    box-shadow:
+      0 18px 38px -18px rgba(40,30,20,.4),
+      0 2px 8px -2px rgba(40,30,20,.18);
+    transform: rotate(1.6deg);
+    transition: transform .5s cubic-bezier(.2,.7,.2,1);
+    align-self: start;
+    height: 100%;
+    display: flex; flex-direction: column;
+  }
+  .polaroid:hover { transform: rotate(0deg); }
+  .polaroid .ph {
+    flex: 1 1 auto;
+    background:
+      linear-gradient(135deg, rgba(0,0,0,.08), rgba(0,0,0,.02)),
+      radial-gradient(120% 80% at 30% 20%, #cfc7b0, #a99e85 60%, #837955);
+  }
+  .polaroid .caption {
+    margin-top: 10px;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--mute);
+    display: flex; justify-content: space-between;
+  }
+  .polaroid .caption span { font-family: var(--mono); font-style: normal; font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute-2); }
+  .pin {
+    position: absolute; top: -8px; left: 50%;
+    width: 14px; height: 14px; border-radius: 999px;
+    background: var(--accent-2);
+    box-shadow: 0 3px 6px rgba(0,0,0,.25), inset -2px -2px 3px rgba(0,0,0,.2);
+    transform: translateX(-50%);
+  }
+
+  .tiles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    min-height: 0;
+  }
+  .tile {
+    text-decoration: none;
+    color: var(--ink);
+    border-radius: 6px;
+    padding: 16px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+    transition: transform .35s ease;
+  }
+  .tile:hover { transform: translateY(-3px); }
+  .tile.t1 {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .tile.t2 {
+    background: #fdfaf1;
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
+  .tile .num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+  .tile .ttl {
+    font-size: clamp(22px, 1.8vw, 30px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .tile .ttl .it {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+  }
+  .tile .sub {
+    font-size: 12.5px;
+    line-height: 1.4;
+    opacity: 0.8;
+  }
+  .tile .row {
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  /* Vertical "ISSUE" label */
+  .edge {
+    position: absolute;
+    top: 50%; right: -12px;
+    transform: translateY(-50%) rotate(90deg);
+    transform-origin: right center;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--mute);
+    white-space: nowrap;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--mute);
+    padding-top: 8px;
+    border-top: 1px solid var(--line);
+  }
+  footer .left { display: flex; gap: 18px; align-items: center; }
+  footer .live {
+    width: 7px; height: 7px; border-radius: 999px;
+    background: #4a8a5f;
+    box-shadow: 0 0 0 3px rgba(74,138,95,.18);
+    animation: pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(74,138,95,.18); }
+    50% { box-shadow: 0 0 0 6px rgba(74,138,95,.05); }
+  }
+  footer .links { display: flex; gap: 22px; }
+  footer .links a { color: var(--ink-2); text-decoration: none; }
+  footer .links a:hover { color: var(--accent); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .page { padding: 18px 22px; gap: 14px; grid-template-rows: auto 1fr auto; }
+    .stage { grid-template-columns: 1fr; gap: 16px; }
+    h1.huge { font-size: clamp(58px, 14vw, 100px); }
+    .right-stack { grid-template-rows: 0.9fr 0.6fr; }
+    .edge { display: none; }
+    .bar .lock { gap: 12px; }
+  }
+  @media (max-width: 520px) {
+    h1.huge { font-size: clamp(48px, 16vw, 78px); }
+    .tiles { grid-template-columns: 1fr; }
+    .bar nav { gap: 14px; }
+    .bar .lock { display: none; }
+    footer { flex-direction: column; align-items: flex-start; gap: 6px; }
+    .polaroid { transform: rotate(0); padding: 10px 10px 26px; }
+  }
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<div class="page rise">
+  <!-- ─── TOP BAR ─── -->
+  <header class="bar">
+    <div class="lock">
+      <strong>Adithi Mahesh</strong>
+      <span>portfolio · vol 26</span>
+    </div>
+    <nav>
+      <a href="landing-spotlight.html" class="active">Home</a>
+      <a href="work.html">Work</a>
+      <a href="about.html">About</a>
+      <a href="designscapes.html">DesignScapes</a>
+      <a href="contact.html">Contact ↗</a>
+    </nav>
+  </header>
+
+  <!-- ─── STAGE ─── -->
+  <section class="stage">
+    <div class="name-block">
+      <div class="lockup">A — UX &amp; product designer · est. 2026</div>
+
+      <h1 class="huge">
+        Adithi<br />
+        <span class="it">Mahesh</span><span class="stamp">+ hello</span>
+      </h1>
+
+      <p class="lede2">
+        I design <span class="em">intuitive</span> experiences that connect people
+        and technology — moving between research, product, and the quiet rituals
+        that make software feel human.
+      </p>
+    </div>
+
+    <div class="right-stack">
+      <div class="polaroid">
+        <span class="pin"></span>
+        <div class="ph"></div>
+        <div class="caption">
+          <em>— on the cover.</em>
+          <span>2026 / boston</span>
+        </div>
+      </div>
+
+      <div class="tiles">
+        <a class="tile t1" href="case-study.html">
+          <div class="num">01 — design</div>
+          <div class="ttl"><span class="it">Lumen</span></div>
+          <div class="sub">Re-imagining evening rituals for a meditation app.</div>
+          <div class="row"><span>2026</span><span>read →</span></div>
+        </a>
+        <a class="tile t2" href="case-study.html">
+          <div class="num">02 — research</div>
+          <div class="ttl">Field Notes</div>
+          <div class="sub">A field study of hybrid commute rituals.</div>
+          <div class="row"><span>2025</span><span>read →</span></div>
+        </a>
+      </div>
+    </div>
+
+    <div class="edge">⌘ &nbsp; portfolio / 2026 — five projects, three research, two pseudo &nbsp; ⌘</div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <div class="left">
+      <span class="live"></span>
+      <span>available — full-time roles · may 2026</span>
+    </div>
+    <div class="links">
+      <a href="mailto:adithi@email.com">email</a>
+      <a href="#">linkedin</a>
+      <a href="#">behance</a>
+      <a href="#">resume ↗</a>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

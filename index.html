@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Adithi Mahesh — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css" />
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" data-bg-color="#f3eee4"><rect width="200" height="200" fill="#f3eee4"/><text x="100" y="115" font-family="Georgia,serif" font-style="italic" font-size="64" fill="#1a1612" text-anchor="middle">a.</text></svg></template>
+<script src="image-slot.js"></script>
+<script src="shared-nav.js"></script>
+<style>
+  body {
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 28px clamp(20px, 3.5vw, 56px);
+    gap: 14px;
+    position: relative;
+  }
+
+  /* ─── TOP STRIP ─── */
+  .topbar {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+    gap: 24px;
+  }
+  .mark {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+   white-space: nowrap;}
+  .mark .dot {
+    width: 8px; height: 8px; border-radius: 999px;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 18%, transparent);
+  }
+  .mark strong { font-weight: 600; }
+  .mark span { color: var(--mute); }
+
+  .issue {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mute);
+    text-align: center;
+   min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+  .issue em {
+    font-style: normal;
+    color: var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 2px;
+  }
+
+  nav.top {
+    justify-self: end;
+    display: flex; gap: 28px;
+    font-size: 13px;
+    letter-spacing: 0.01em;
+   white-space: nowrap;}
+  nav.top a {
+    text-decoration: none;
+    color: var(--ink);
+    padding-bottom: 2px;
+    border-bottom: 1px solid transparent;
+    transition: border-color .25s, color .25s;
+   white-space: nowrap;}
+  nav.top a:hover { border-bottom-color: var(--ink); }
+  nav.top a.active { color: var(--mute); }
+
+  /* ─── MAIN GRID ─── */
+  main {
+    flex: 1 1 auto;
+    display: grid;
+    grid-template-columns: 1.2fr 0.95fr;
+    grid-template-rows: 1fr auto;
+    gap: clamp(20px, 2.5vw, 40px) clamp(24px, 3vw, 56px);
+    min-height: 0;
+  }
+
+  /* Left: type stack */
+  .lede { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+  .role {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--mute);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .role::before {
+    content: ""; display: block; width: 28px; height: 1px; background: var(--ink);
+  }
+  h1.name {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: clamp(56px, 8.4vw, 132px);
+    line-height: 0.93;
+    letter-spacing: -0.04em;
+    margin: 0;
+    color: var(--ink);
+  }
+  h1.name .it {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+  }
+
+  .tag {
+    max-width: 38ch;
+    font-size: clamp(16px, 1.15vw, 19px);
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+  .tag .em {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+
+  /* Right: cover photo */
+  .cover {
+    position: relative;
+    display: flex; flex-direction: column;
+    align-self: stretch;
+    min-height: 0;
+  }
+  .cover-frame {
+    flex: 1 1 auto;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 12px 36px -16px rgba(40,30,20,.35);
+  }
+  .cover-frame .ph { position: absolute; inset: 0; }
+  .cover-frame image-slot {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    border-radius: 4px; overflow: hidden;
+  }
+  .cover-tag {
+    margin-top: 10px;
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mute);
+  }
+  .cover-tag em {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+
+  /* Bottom: feature tiles span both columns */
+  .features {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: clamp(14px, 1.6vw, 24px);
+    align-items: stretch;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+  }
+  .feat {
+    text-decoration: none; color: inherit;
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    gap: 14px;
+    align-items: center;
+    padding: 14px 16px 14px 14px;
+    border-radius: 4px;
+    background: transparent;
+    transition: background .35s ease, transform .35s ease;
+    position: relative;
+  }
+  .feat:hover {
+    background: color-mix(in oklab, var(--paper-2) 60%, transparent);
+  }
+  .feat:hover .feat-thumb { transform: scale(1.04) rotate(-1deg); }
+  .feat:hover .arrow { transform: translate(4px, -4px); }
+  .feat-thumb {
+    width: 56px; height: 70px;
+    border-radius: 3px;
+    overflow: hidden; position: relative;
+    transition: transform .5s cubic-bezier(.2,.7,.2,1);
+  }
+  .feat-thumb.t1 {
+    background: linear-gradient(160deg, #2a3a30, #4a5a3c 70%);
+  }
+  .feat-thumb.t2 {
+    background: linear-gradient(160deg, #c96442, #e08b69);
+  }
+  .feat-thumb.t2::after {
+    content: ""; position: absolute; inset: 0;
+    background:
+      linear-gradient(90deg, transparent 49%, rgba(255,255,255,.25) 50%, transparent 51%),
+      linear-gradient(0deg, transparent 49%, rgba(255,255,255,.18) 50%, transparent 51%);
+    background-size: 14px 14px;
+  }
+  .feat-meta { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .feat-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--mute);
+  }
+  .feat-title {
+    font-size: clamp(18px, 1.45vw, 22px);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+  }
+  .feat-sub {
+    font-size: 12.5px;
+    color: var(--mute);
+    line-height: 1.35;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .arrow {
+    width: 24px; height: 24px;
+    align-self: center;
+    color: var(--ink);
+    transition: transform .35s ease;
+  }
+
+  .more {
+    align-self: stretch;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 14px 18px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 4px;
+    text-decoration: none;
+    min-width: 200px;
+    transition: background .25s;
+  }
+  .more:hover { background: var(--accent); }
+  .more .small {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.65;
+    margin-bottom: 6px;
+  }
+  .more .big {
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+
+  /* ─── BOTTOM STRIP ─── */
+  footer {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--mute);
+  }
+  footer .left { display: flex; align-items: center; gap: 14px; }
+  footer .left .live {
+    width: 7px; height: 7px; border-radius: 999px;
+    background: #4a8a5f;
+    box-shadow: 0 0 0 3px rgba(74,138,95,.18);
+    animation: pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(74,138,95,.18); }
+    50% { box-shadow: 0 0 0 6px rgba(74,138,95,.05); }
+  }
+  footer .links { display: flex; gap: 22px; }
+  footer .links a {
+    color: var(--ink-2);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+    transition: border-color .25s;
+  }
+  footer .links a:hover { border-bottom-color: var(--ink-2); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .page { padding: 20px 24px; gap: 12px; }
+    main {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 1fr auto;
+      gap: 16px;
+    }
+    .cover { order: -1; min-height: 30vh; }
+    .cover-frame { min-height: 30vh; }
+    h1.name { font-size: clamp(48px, 12vw, 92px); }
+    .features { grid-template-columns: 1fr; gap: 8px; padding-top: 12px; }
+    .more { display: none; }
+    nav.top { gap: 16px; font-size: 12px; }
+  }
+  @media (max-width: 520px) {
+    .page { padding: 16px 18px; }
+    .topbar { grid-template-columns: 1fr auto; gap: 14px; }
+    .issue { display: none; }
+    h1.name { font-size: clamp(42px, 14vw, 74px); }
+    .tag { font-size: 14px; }
+    footer { flex-direction: column; gap: 8px; align-items: flex-start; }
+    .feat { padding: 10px; gap: 12px; grid-template-columns: 48px 1fr auto; }
+    .feat-thumb { width: 48px; height: 56px; }
+  }
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<style>.to-top{position:fixed;bottom:28px;right:28px;width:44px;height:44px;border-radius:50%;background:var(--ink,#1a1612);color:var(--paper,#f3eee4);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .3s ease,transform .3s ease;z-index:60;box-shadow:0 12px 28px -12px rgba(20,15,10,.4)}.to-top.show{opacity:1;pointer-events:auto;transform:translateY(0)}.to-top:hover{background:var(--accent,#3a4d3f)}</style>
+<button class="to-top" id="toTopBtn" aria-label="Back to top"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+
+
+<div class="page rise">
+
+  <!-- ─── TOP ─── -->
+  <header class="topbar">
+    <a class="mark" href="index.html" aria-label="Adithi Mahesh — home">
+      <span class="dot"></span>
+      <strong>A · M</strong>
+      <span>/ portfolio</span>
+    </a>
+    <div class="issue">vol. <em>26</em> &nbsp;·&nbsp; issue no. 03 &nbsp;·&nbsp; july 2026</div>
+    <nav class="top">
+      <a href="index.html" class="active">Home</a>
+      <a href="work.html">Work</a>
+      <a href="about.html">About</a>
+      <a href="designscapes.html">DesignScapes</a>
+      <a href="contact.html">Contact ↗</a>
+    </nav>
+    <button class="nav-toggle"><span></span><span></span><span></span></button>
+  </header>
+
+  <!-- ─── MAIN ─── -->
+  <main>
+    <section class="lede">
+      <div class="role">UX &amp; product designer</div>
+      <h1 class="name">Adithi<br />Mahesh<span style="color:var(--accent)">.</span></h1>
+      <p class="tag">
+        Designing <span class="em">intuitive</span> experiences that connect people and technology, currently exploring UX research, product, and the warm, quiet spaces in between.
+      </p>
+    </section>
+
+    <aside class="cover">
+      <div class="cover-frame">
+        <image-slot
+          id="cover-portrait"
+          shape="rect"
+          placeholder="Drop a portrait photo here">
+        </image-slot>
+      </div>
+      <div class="cover-tag">
+        <span>photo / 2026</span>
+        <em>on the cover</em>
+      </div>
+    </aside>
+
+    <!-- features span -->
+    <div class="features">
+      <a class="feat" href="case-study-fashion.html">
+        <div class="feat-thumb t1" style="background:#3a4d3f"></div>
+        <div class="feat-meta">
+          <div class="feat-num">RESEARCH PROJECT</div>
+          <div class="feat-title">Understanding Body-Centered UX</div>
+          <div class="feat-sub">Redesigning online e-commerce fashion with Feminist principles</div>
+        </div>
+        <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7 17 L17 7 M9 7 H17 V15"/></svg>
+      </a>
+      <a class="feat" href="case-study-ux4ux.html">
+        <div class="feat-thumb t2" style="background:#18D1B6"></div>
+        <div class="feat-meta">
+          <div class="feat-num">WEB TOOL DESIGN</div>
+          <div class="feat-title">Web Based tool for Usability Test guidance</div>
+          <div class="feat-sub">A project was done to design a tool for providing usability tests for medical research</div>
+        </div>
+        <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7 17 L17 7 M9 7 H17 V15"/></svg>
+      </a>
+      <a class="more" href="work.html">
+        <div class="small">+ 06 more</div>
+        <div class="big">see all work<br/>&amp; case studies →</div>
+      </a>
+    </div>
+  </main>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <div class="left">
+      <span class="live"></span>
+      <span>AVAILABLE FOR FULL-TIME ROLES · GERMANY (GMT+2)</span>
+    </div>
+    <div class="links">
+      <a href="mailto:adithi@email.com">email</a>
+      <a href="#">linkedin</a>
+      <a href="#">behance</a>
+    </div>
+  </footer>
+
+</div>
+
+<div id="tweaks-root"></div>
+
+<script>
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "zoom": 1,
+    "cropX": 0,
+    "cropY": 0,
+    "framePromince": 0.8,
+    "framePadding": 8
+  }/*EDITMODE-END*/;
+</script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+  function CoverTweaks() {
+    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+    // apply tweaks to the live page
+    React.useEffect(() => {
+      const frame = document.querySelector('.cover-frame');
+      const main = document.querySelector('main');
+      const slot = document.querySelector('image-slot#cover-portrait');
+      if (!frame || !main) return;
+
+      frame.style.padding = (t.framePadding || 0) + 'px';
+      main.style.gridTemplateColumns = `1fr ${t.framePromince}fr`;
+
+      // Drive the image-slot's internal view (s/x/y) — same model the
+      // double-click reframe uses, so the two stay in sync.
+      if (slot && slot._view && typeof slot._applyView === 'function') {
+        slot._view.s = t.zoom;
+        slot._view.x = t.cropX;
+        slot._view.y = t.cropY;
+        if (typeof slot._clampView === 'function') slot._clampView();
+        slot._applyView();
+        if (typeof slot._commitView === 'function') slot._commitView();
+      }
+    }, [t.zoom, t.cropX, t.cropY, t.framePromince, t.framePadding]);
+
+    return (
+      <TweaksPanel title="Tweaks — cover">
+        <TweakSection label="Image" />
+        <TweakSlider label="Zoom" value={t.zoom} min={1} max={3} step={0.05} unit="×"
+                     onChange={(v) => setTweak('zoom', v)} />
+        <TweakSlider label="Pan ↔" value={t.cropX} min={-50} max={50} step={1} unit="%"
+                     onChange={(v) => setTweak('cropX', v)} />
+        <TweakSlider label="Pan ↕" value={t.cropY} min={-50} max={50} step={1} unit="%"
+                     onChange={(v) => setTweak('cropY', v)} />
+        <TweakButton label="Reset crop"
+                     onClick={() => setTweak({ zoom: 1, cropX: 0, cropY: 0 })} />
+        <TweakSection label="Frame" />
+        <TweakSlider label="Photo prominence" value={t.framePromince} min={0.5} max={1.8} step={0.05} unit="fr"
+                     onChange={(v) => setTweak('framePromince', v)} />
+        <TweakSlider label="Inner padding" value={t.framePadding} min={0} max={40} step={1} unit="px"
+                     onChange={(v) => setTweak('framePadding', v)} />
+      </TweaksPanel>
+    );
+  }
+
+  const root = ReactDOM.createRoot(document.getElementById('tweaks-root'));
+  root.render(<CoverTweaks />);
+</script>
+
+<script>(function(){var b=document.getElementById('toTopBtn');window.addEventListener('scroll',function(){b.classList.toggle('show',window.scrollY>window.innerHeight)},{passive:true});b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();</script>
+</body>
+</html>

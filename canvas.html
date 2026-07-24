@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Adithi Mahesh — Portfolio Variations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; height: 100%; background: #f0eee9; font-family: 'Geist', system-ui, sans-serif; }
+  .frame { width: 100%; height: 100%; border: 0; display: block; background: #f4efe6; }
+</style>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="design-canvas.jsx"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+  const { useState } = React;
+
+  // Bust iframe cache when the focus overlay opens so the page resets cleanly
+  // (so the page-transition veil + scroll-restart play again on each view).
+  function Iframe({ src, title }) {
+    return <iframe className="frame" src={src} title={title} loading="lazy" />;
+  }
+
+  function App() {
+    return (
+      <DesignCanvas>
+        <DCSection
+          id="landing"
+          title="Landing — one screen, no scroll"
+          subtitle="Three variations of the asymmetric magazine-cover hero. All clean sans, generous whitespace, terracotta/sage accents. Click a project tile inside any artboard to open the scrollytelling case study.">
+
+          <DCArtboard id="frame" label="01 · Frame — editorial cover" width={1440} height={900}>
+            <Iframe src="landing-frame.html" title="Frame landing" />
+          </DCArtboard>
+
+          <DCArtboard id="spotlight" label="02 · Spotlight — name lockup" width={1440} height={900}>
+            <Iframe src="landing-spotlight.html" title="Spotlight landing" />
+          </DCArtboard>
+
+          <DCArtboard id="studio" label="03 · Studio — dark index" width={1440} height={900}>
+            <Iframe src="landing-studio.html" title="Studio landing" />
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection
+          id="responsive"
+          title="Responsive — tablet & mobile"
+          subtitle="The Frame variation across breakpoints. The Studio and Spotlight files are responsive too — open them at any width.">
+
+          <DCArtboard id="frame-tablet" label="Frame · tablet 834" width={834} height={1112}>
+            <Iframe src="landing-frame.html" title="Frame tablet" />
+          </DCArtboard>
+
+          <DCArtboard id="frame-mobile" label="Frame · mobile 390" width={390} height={844}>
+            <Iframe src="landing-frame.html" title="Frame mobile" />
+          </DCArtboard>
+
+          <DCArtboard id="studio-mobile" label="Studio · mobile 390" width={390} height={844}>
+            <Iframe src="landing-studio.html" title="Studio mobile" />
+          </DCArtboard>
+
+          <DCArtboard id="spotlight-mobile" label="Spotlight · mobile 390" width={390} height={844}>
+            <Iframe src="landing-spotlight.html" title="Spotlight mobile" />
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection
+          id="case-study"
+          title="Case Study — scrollytelling"
+          subtitle="Chaptered long-form with parallax bands, a side rail of chapters, a top scroll-progress indicator, and a colored page-transition veil on entry. Click to expand to fullscreen and scroll through the whole story.">
+
+          <DCArtboard id="case-desktop" label="Lumen — desktop 1440" width={1440} height={1400}>
+            <Iframe src="case-study.html" title="Case study scrollytelling" />
+          </DCArtboard>
+
+          <DCArtboard id="case-mobile" label="Lumen — mobile 390" width={390} height={1300}>
+            <Iframe src="case-study.html" title="Case study mobile" />
+          </DCArtboard>
+        </DCSection>
+
+        <DCPostIt top={40} left={120} width={280}>
+          <strong>Read me first.</strong><br/><br/>
+          Three landing-page directions, all one-screen / no-scroll, all responsive.
+          Pick a favourite (or mix elements) and I'll lock it in.<br/><br/>
+          Click any project tile to enter the scrollytelling case study.
+        </DCPostIt>
+      </DesignCanvas>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

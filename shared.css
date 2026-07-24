@@ -1,0 +1,129 @@
+/* Adithi Mahesh — shared design tokens */
+:root {
+  --paper: #f4efe6;
+  --paper-2: #ebe5d8;
+  --ink: #1a1612;
+  --ink-2: #2a241d;
+  --mute: #756b5e;
+  --mute-2: #a39a8b;
+  --line: #d6cebe;
+  --accent: #c96442;
+  --accent-2: #4a5a3c;
+  --display: "Fraunces", "Times New Roman", serif;
+  --sans: "Geist", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono: "Geist Mono", "JetBrains Mono", ui-monospace, monospace;
+}
+
+@font-face { font-family: dummy; src: local('Arial'); } /* shim */
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--sans);
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Grain / noise overlay — subtle */
+.grain {
+  position: fixed; inset: 0; pointer-events: none; z-index: 100;
+  opacity: 0.35; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/></svg>");
+}
+
+/* Entry animations — staggered fade-up.
+   Base state is VISIBLE; the animation briefly hides via the keyframe `from`
+   and `animation-fill-mode: backwards` so a paused/suppressed animation
+   (background tab, reduced-motion) lands on the visible end-state, not blank. */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+.rise > * { animation: rise .9s cubic-bezier(.2,.7,.2,1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .rise > * { animation: none !important; opacity: 1 !important; transform: none !important; }
+}
+.rise > *:nth-child(1) { animation-delay: .05s; }
+.rise > *:nth-child(2) { animation-delay: .15s; }
+.rise > *:nth-child(3) { animation-delay: .25s; }
+.rise > *:nth-child(4) { animation-delay: .35s; }
+.rise > *:nth-child(5) { animation-delay: .45s; }
+.rise > *:nth-child(6) { animation-delay: .55s; }
+.rise > *:nth-child(7) { animation-delay: .65s; }
+.rise > *:nth-child(8) { animation-delay: .75s; }
+
+/* Reusable label */
+.meta {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+
+a { color: inherit; }
+a.mark { text-decoration: none; cursor: pointer; }
+a.mark:hover .dot { box-shadow: 0 0 0 6px color-mix(in oklab, var(--accent) 22%, transparent); transition: box-shadow .25s ease; }
+button { font: inherit; }
+
+/* Placeholder photo / image slot */
+.ph {
+  background:
+    linear-gradient(135deg, rgba(0,0,0,.06), rgba(0,0,0,.02)),
+    radial-gradient(120% 80% at 30% 20%, #d4ccba, #b8ad95 60%, #8a8170);
+  position: relative;
+  overflow: hidden;
+}
+.ph::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(50% 60% at 50% 55%, rgba(255,255,255,.18), transparent 60%),
+    repeating-linear-gradient(45deg, rgba(255,255,255,.04) 0 2px, transparent 2px 6px);
+}
+.ph-label {
+  position: absolute; bottom: 10px; left: 12px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.7);
+  background: rgba(0,0,0,.22);
+  padding: 4px 8px;
+  border-radius: 999px;
+  backdrop-filter: blur(4px);
+}
+
+/* ─── HAMBURGER NAV (iPad and below) ─── */
+.nav-toggle {
+  display: none; flex-direction: column; justify-content: center; gap: 5px;
+  width: 40px; height: 40px; padding: 0;
+  background: none; border: 0; cursor: pointer; justify-self: end; z-index: 101;
+}
+.nav-toggle span { width: 22px; height: 2px; background: var(--ink); transition: transform .25s ease, opacity .25s ease; }
+body.nav-open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+body.nav-open .nav-toggle span:nth-child(2) { opacity: 0; }
+body.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.mobile-nav-overlay { display: none; }
+@media (max-width: 1024px) {
+  .nav-toggle { display: flex; }
+  nav.top { display: none !important; }
+  .mobile-nav-overlay {
+    display: flex !important; flex-direction: column; align-items: stretch;
+    position: fixed; left: 0; right: 0; top: 64px; bottom: 0;
+    background-color: var(--paper); z-index: 9999;
+    padding: 8px clamp(20px, 6vw, 56px) 24px;
+    opacity: 0; transform: translateY(-10px); pointer-events: none;
+    transition: opacity .25s ease, transform .25s ease;
+    overflow-y: auto;
+  }
+  body.nav-open .mobile-nav-overlay { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .mobile-nav-overlay a {
+    width: 100%; padding: 18px 0; font-size: 20px;
+    border-bottom: 1px solid var(--line);
+    text-decoration: none; color: var(--ink);
+  }
+  .mobile-nav-overlay a.active { color: var(--mute); }
+}
